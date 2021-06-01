@@ -22,25 +22,26 @@ namespace s4_oop_l11
     public partial class MainWindow : Window
     {
         SodaContext sodaDataBase;
-
+        UnitOfWork unit;
 
         public MainWindow()
         {
             InitializeComponent();
             sodaDataBase = new SodaContext();
+            unit = new UnitOfWork();
 
             sodaDataBase.Sodas.Load();
             sodaDataBase.Companies.Load();
 
-            sodaGrid.ItemsSource = sodaDataBase.Sodas.Local.ToBindingList();
-            companiesGrid.ItemsSource = sodaDataBase.Companies.Local.ToBindingList();
-            CompaniexComboBoxColumn.ItemsSource = sodaDataBase.Companies.Local.ToBindingList();
+            sodaGrid.ItemsSource = unit.GetSodas();
+            companiesGrid.ItemsSource = unit.GetCompanies();
+            CompaniexComboBoxColumn.ItemsSource = unit.GetCompanies();
         }
 
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            sodaDataBase.SaveChanges();
+            unit.SaveChanges();
         }
 
     
